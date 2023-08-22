@@ -24,6 +24,8 @@
         /* colors */
         --white-color: white;
         --darkblue-color: #36384d;
+        --red-color: red;
+        --lightred-color: rgb(255, 236, 236);
         --orange-color: #fc6a3b;
         --lightorange-color: #feb096;
         --pink-color: #ff537b;
@@ -151,9 +153,30 @@
           </div>
         </div>
 
-        <h5>Email address</h5>
-        <input class="input-box" type="email" />
-        <button class="btn">Subscribe to monthly newesletter</button>
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+          "
+        >
+          <b>Email address</b>
+          <span
+            id="invalid-email-label"
+            style="color: var(--red-color); opacity: 0"
+            >Valid email required</span
+          >
+        </div>
+        <input
+          id="email-input"
+          onkeydown="clearInvalidEmailStyle()"
+          class="input-box"
+          type="email"
+          required
+        />
+        <button class="btn" onclick="addEmail()">
+          Subscribe to monthly newesletter
+        </button>
       </div>
       <div class="right-panel">
         <img
@@ -165,8 +188,63 @@
     <script>
       function addEmail() {
         // === validation process for the email address ===
-        // === add email to database ===
-        // --- dummy process ---
+        // pattern to match the email info
+        var validRegex =
+          /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
+        // get input element from DOM
+        var inputElement = document.querySelector("#email-input");
+        // get error label from DOM
+        var invalidMessageLabel = document.querySelector(
+          "#invalid-email-label"
+        );
+
+        // get computed styles to have access to global variables defined in css style sheets
+        var computedStyles = getComputedStyle(document.querySelector(":root"));
+
+        if (inputElement.value.match(validRegex)) {
+          // the email is valid so hide the main dialog and show the "Successful Operation" dialog
+          console.log("the email is valid");
+
+          // hide the invalid email message
+          invalidMessageLabel.style.opacity = 0;
+        } else {
+          console.log("the email is invalid");
+          // the email is invalid so add some alert styling to the visual interface
+          // and wait for the user to enter a valid email
+
+          // change the style of invalid email message element
+          invalidMessageLabel.style.opacity = 1;
+
+          // change the style of input element
+          inputElement.style.backgroundColor =
+            computedStyles.getPropertyValue("--lightred-color");
+          inputElement.style.color =
+            computedStyles.getPropertyValue("--red-color");
+          inputElement.style.borderColor =
+            computedStyles.getPropertyValue("--red-color");
+        }
+      }
+
+      function clearInvalidEmailStyle() {
+        console.log("change detected");
+        // get input element from DOM
+        var inputElement = document.querySelector("#email-input");
+        // get error label from DOM
+        var invalidMessageLabel = document.querySelector(
+          "#invalid-email-label"
+        );
+        // get computed styles to have access to global variables defined in css style sheets
+        var computedStyles = getComputedStyle(document.querySelector(":root"));
+
+        // remove the inline color property value
+        inputElement.style.color = null;
+        // remove the inline border-color property value
+        inputElement.style.borderColor = null;
+        // remove the inline background-color property value
+        inputElement.style.backgroundColor = null;
+
+        invalidMessageLabel.style.opacity = 0;
       }
     </script>
   </body>
