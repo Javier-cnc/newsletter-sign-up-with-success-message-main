@@ -37,27 +37,47 @@
         --normal-font: 15px;
         --medium-font: 20px;
         --large-font: 30px;
-        --verylargge-font: 40px;
+        --verylarge-font: 40px;
       }
       body {
         font-family: myFont;
         background-color: var(--black-color);
-        display: flex;
-        justify-content: center;
-        align-items: center;
+      }
+      .page {
+        background: none;
         width: 100vw;
         height: 100vh;
         overflow: hidden;
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        right: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
       }
       .dialog-container {
         background-color: var(--white-color);
-        border-radius: 10px;
+        border-radius: 20px;
+        padding: 10px;
+        font-size: var(--small-font);
+      }
+      .main-dialog-container {
         width: 600px;
         height: 450px;
-        padding: 10px;
         display: flex;
         flex-direction: row;
-        font-size: var(--small-font);
+      }
+      .response-dialog-container {
+        width: 250px;
+        padding: 40px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      #response-page {
+        visibility: collapse;
       }
 
       .left-panel {
@@ -134,55 +154,76 @@
     </title>
   </head>
   <body>
-    <div class="dialog-container">
-      <div class="left-panel">
-        <h1 class="header-text">Stay updated!</h1>
-        <p>Join 60,000+ product managers receiving monthly updated on:</p>
-        <div class="sorted-item-container">
-          <div class="list-item">
-            <img class="icon-image" src="./assets/images/icon-list.svg" />
-            <span>Product discovery and building what matters</span>
+    <div id="main-page" class="page">
+      <div class="main-dialog-container dialog-container">
+        <div class="left-panel">
+          <h1 class="header-text">Stay updated!</h1>
+          <p>Join 60,000+ product managers receiving monthly updated on:</p>
+          <div class="sorted-item-container">
+            <div class="list-item">
+              <img class="icon-image" src="./assets/images/icon-list.svg" />
+              <span>Product discovery and building what matters</span>
+            </div>
+            <div class="list-item">
+              <img class="icon-image" src="./assets/images/icon-list.svg" />
+              <span>Measuring to ensure updates are a success</span>
+            </div>
+            <div class="list-item">
+              <img class="icon-image" src="./assets/images/icon-list.svg" />
+              <span>And much more!</span>
+            </div>
           </div>
-          <div class="list-item">
-            <img class="icon-image" src="./assets/images/icon-list.svg" />
-            <span>Measuring to ensure updates are a success</span>
-          </div>
-          <div class="list-item">
-            <img class="icon-image" src="./assets/images/icon-list.svg" />
-            <span>And much more!</span>
-          </div>
-        </div>
 
-        <div
-          style="
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-          "
-        >
-          <b>Email address</b>
-          <span
-            id="invalid-email-label"
-            style="color: var(--red-color); opacity: 0"
-            >Valid email required</span
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              margin-top: 10px;
+            "
           >
+            <b>Email address</b>
+            <span
+              id="invalid-email-label"
+              style="color: var(--red-color); opacity: 0"
+              >Valid email required</span
+            >
+          </div>
+          <input
+            id="email-input"
+            onkeydown="clearInvalidEmailStyle()"
+            class="input-box"
+            type="email"
+            required
+          />
+          <button class="btn" onclick="addEmail()">
+            Subscribe to monthly newesletter
+          </button>
         </div>
-        <input
-          id="email-input"
-          onkeydown="clearInvalidEmailStyle()"
-          class="input-box"
-          type="email"
-          required
-        />
-        <button class="btn" onclick="addEmail()">
-          Subscribe to monthly newesletter
-        </button>
+        <div class="right-panel">
+          <img
+            style="object-fit: cover; height: 100%"
+            src="./assets/images/illustration-sign-up-desktop.svg"
+          />
+        </div>
       </div>
-      <div class="right-panel">
+    </div>
+    <div id="response-page" class="page">
+      <div class="response-dialog-container dialog-container">
         <img
-          style="object-fit: cover; height: 100%"
-          src="./assets/images/illustration-sign-up-desktop.svg"
+          src="./assets/images/icon-list.svg"
+          style="width: 50px; height: 50px; display: block; margin-bottom: 20px"
         />
+        <span style="font-size: var(--verylarge-font); font-family: myFontbold">
+          Thanks for subscribing!
+        </span>
+        <p>
+          A confirmation email has been sent to
+          <b id="email-address-label"></b>. Please open it and click the button
+          inside to confirm your subscription.
+        </p>
+        <button class="btn" onclick="resetToInitialStatus()">
+          Dismiss message
+        </button>
       </div>
     </div>
     <script>
@@ -194,6 +235,7 @@
 
         // get input element from DOM
         var inputElement = document.querySelector("#email-input");
+
         // get error label from DOM
         var invalidMessageLabel = document.querySelector(
           "#invalid-email-label"
@@ -203,12 +245,25 @@
         var computedStyles = getComputedStyle(document.querySelector(":root"));
 
         if (inputElement.value.match(validRegex)) {
+          // **** valid email ****
           // the email is valid so hide the main dialog and show the "Successful Operation" dialog
-          console.log("the email is valid");
+          // set the value of the entered email to the label in the response dialog
+          document.querySelector("#email-address-label").innerText =
+            inputElement.value;
 
-          // hide the invalid email message
-          invalidMessageLabel.style.opacity = 0;
+          // clear the value of input element to be ready for the next input
+          inputElement.value = "";
+
+          // clear all the styling corresponding to invalid email status
+          clearInvalidEmailStyle();
+
+          // take out from sight the main page
+          document.querySelector("#main-page").style.visibility = "collapse";
+
+          // get in the response page
+          document.querySelector("#response-page").style.visibility = "visible";
         } else {
+          // **** invalid email ****
           console.log("the email is invalid");
           // the email is invalid so add some alert styling to the visual interface
           // and wait for the user to enter a valid email
@@ -228,6 +283,7 @@
 
       function clearInvalidEmailStyle() {
         console.log("change detected");
+
         // get input element from DOM
         var inputElement = document.querySelector("#email-input");
         // get error label from DOM
@@ -239,12 +295,22 @@
 
         // remove the inline color property value
         inputElement.style.color = null;
+
         // remove the inline border-color property value
         inputElement.style.borderColor = null;
+
         // remove the inline background-color property value
         inputElement.style.backgroundColor = null;
 
         invalidMessageLabel.style.opacity = 0;
+      }
+
+      function resetToInitialStatus() {
+        // hide response page
+        document.querySelector("#response-page").style.visibility = "collapse";
+
+        // show main page
+        document.querySelector("#main-page").style.visibility = "visible";
       }
     </script>
   </body>
