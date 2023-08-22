@@ -1,52 +1,173 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- displays site properly based on user's device -->
 
-  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
-  
-  <title>Frontend Mentor | Newsletter sign-up form with success message</title>
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./assets/images/favicon-32x32.png"
+    />
+    <style>
+      @font-face {
+        font-family: myFont;
+        src: url("./assets/fonts/Roboto-Regular.ttf");
+      }
+      @font-face {
+        font-family: myFontBold;
+        src: url("./assets/fonts/Roboto-Bold.ttf");
+      }
+      :root {
+        /* colors */
+        --white-color: white;
+        --darkblue-color: #36384d;
+        --orange-color: #fc6a3b;
+        --lightorange-color: #feb096;
+        --pink-color: #ff537b;
+        --black-color: #272b44;
+        --gray-color: rgb(157, 157, 157);
 
-  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
-  <style>
-    .attribution { font-size: 11px; text-align: center; }
-    .attribution a { color: hsl(228, 45%, 44%); }
-  </style>
-</head>
-<body>
+        /* font size */
+        --small-font: 12px;
+        --normal-font: 15px;
+        --medium-font: 20px;
+        --large-font: 30px;
+        --verylargge-font: 40px;
+      }
+      body {
+        font-family: myFont;
+        background-color: var(--black-color);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100vw;
+        height: 100vh;
+        overflow: hidden;
+      }
+      .dialog-container {
+        background-color: var(--white-color);
+        border-radius: 10px;
+        width: 600px;
+        height: 450px;
+        padding: 10px;
+        display: flex;
+        flex-direction: row;
+        font-size: var(--small-font);
+      }
 
-  <!-- Sign-up form start -->
+      .left-panel {
+        flex: 1 0 0px;
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: stretch;
+      }
+      .right-panel {
+        flex: 1 0 0px;
+        overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
 
-  Stay updated!
+      .header-text {
+        font-size: var(--large-font);
+        font-family: myFontBold;
+        text-align: center;
+      }
 
-  Join 60,000+ product managers receiving monthly updates on:
+      .list-item {
+        margin-top: 5px;
+        display: flex;
 
-  Product discovery and building what matters
-  Measuring to ensure updates are a success
-  And much more!
+        align-items: center;
+      }
 
-  Email address
-  email@company.com
+      .icon-image {
+        margin-right: 10px;
+      }
 
-  Subscribe to monthly newsletter
+      .btn {
+        border: none;
+        cursor: pointer;
+        display: block;
+        border-radius: 10px;
+        color: white;
+        background: linear-gradient(
+          to right,
+          var(--pink-color),
+          var(--orange-color)
+        );
+        padding: 20px;
+        margin-bottom: 20px;
 
-  <!-- Sign-up form end -->
+        box-shadow: 0px 10px 20px 1px var(--lightorange-color);
+      }
 
-  <!-- Success message start -->
+      .btn:hover {
+        background: var(--darkblue-color);
+        box-shadow: none;
+      }
 
-  Thanks for subscribing!
+      .input-box {
+        border: 1px solid var(--gray-color);
+        border-radius: 5px;
+        padding: 8px;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
 
-  A confirmation email has been sent to ash@loremcompany.com. 
-  Please open it and click the button inside to confirm your subscription.
+      .input-box:focus {
+        border: 1px solid var(--darkblue-color);
+        outline: none;
+      }
+    </style>
 
-  Dismiss message
+    <title>
+      Frontend Mentor | Newsletter sign-up form with success message
+    </title>
+  </head>
+  <body>
+    <div class="dialog-container">
+      <div class="left-panel">
+        <h1 class="header-text">Stay updated!</h1>
+        <p>Join 60,000+ product managers receiving monthly updated on:</p>
+        <div class="sorted-item-container">
+          <div class="list-item">
+            <img class="icon-image" src="./assets/images/icon-list.svg" />
+            <span>Product discovery and building what matters</span>
+          </div>
+          <div class="list-item">
+            <img class="icon-image" src="./assets/images/icon-list.svg" />
+            <span>Measuring to ensure updates are a success</span>
+          </div>
+          <div class="list-item">
+            <img class="icon-image" src="./assets/images/icon-list.svg" />
+            <span>And much more!</span>
+          </div>
+        </div>
 
-  <!-- Success message end -->
-  
-  <div class="attribution">
-    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
-    Coded by <a href="#">Your Name Here</a>.
-  </div>
-</body>
+        <h5>Email address</h5>
+        <input class="input-box" type="email" />
+        <button class="btn">Subscribe to monthly newesletter</button>
+      </div>
+      <div class="right-panel">
+        <img
+          style="object-fit: cover; height: 100%"
+          src="./assets/images/illustration-sign-up-desktop.svg"
+        />
+      </div>
+    </div>
+    <script>
+      function addEmail() {
+        // === validation process for the email address ===
+        // === add email to database ===
+        // --- dummy process ---
+      }
+    </script>
+  </body>
 </html>
