@@ -42,12 +42,12 @@
       body {
         font-family: myFont;
         background-color: var(--black-color);
+        overflow: hidden;
       }
       .page {
         background: none;
         width: 100vw;
         height: 100vh;
-        overflow: hidden;
         position: absolute;
         left: 0;
         top: 0;
@@ -56,6 +56,15 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        transition-property: margin-left;
+        transition-duration: 400ms;
+      }
+
+      #main-page {
+        margin-left: 0;
+      }
+      #response-page {
+        margin-left: 100%;
       }
       .dialog-container {
         background-color: var(--white-color);
@@ -74,10 +83,6 @@
         padding: 40px;
         display: flex;
         flex-direction: column;
-      }
-
-      #response-page {
-        visibility: collapse;
       }
 
       .left-panel {
@@ -258,10 +263,10 @@
           clearInvalidEmailStyle();
 
           // take out from sight the main page
-          document.querySelector("#main-page").style.visibility = "collapse";
+          document.querySelector("#main-page").style.marginLeft = "-100%";
 
           // get in the response page
-          document.querySelector("#response-page").style.visibility = "visible";
+          document.querySelector("#response-page").style.marginLeft = "0";
         } else {
           // **** invalid email ****
           console.log("the email is invalid");
@@ -307,10 +312,10 @@
 
       function resetToInitialStatus() {
         // hide response page
-        document.querySelector("#response-page").style.visibility = "collapse";
+        document.querySelector("#response-page").style.marginLeft = "100%";
 
         // show main page
-        document.querySelector("#main-page").style.visibility = "visible";
+        document.querySelector("#main-page").style.marginLeft = "0";
       }
     </script>
   </body>
