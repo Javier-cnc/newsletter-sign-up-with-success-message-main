@@ -1,24 +1,33 @@
+// get input HTMLElement used by the user to enter the email information
+const inputElement = document.querySelector("#email-input");
+
+// get HTMLElement that shows the error message indicating the user the email is invalid
+const invalidMessageLabel = document.querySelector("#invalid-email-label");
+
+// HTMLElement for response page
+const responsePage = document.querySelector("#response-page");
+
+// HTMLElement for main page
+const mainPage = document.querySelector("#main-page");
+
+// HTMLElement that will show to the user the email to which the subscription was made
+const emailAddressLabel = document.querySelector("#email-address-label");
+
+// get computed styles to have access to global variables defined in css style sheets
+const computedStyles = getComputedStyle(document.querySelector(":root"));
+
+// pattern to match the email info for validation purposes
+const validRegex =
+  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+
 function addEmail() {
   // === validation process for the email address ===
-  // pattern to match the email info
-  var validRegex =
-    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
-
-  // get input element from DOM
-  var inputElement = document.querySelector("#email-input");
-
-  // get error label from DOM
-  var invalidMessageLabel = document.querySelector("#invalid-email-label");
-
-  // get computed styles to have access to global variables defined in css style sheets
-  var computedStyles = getComputedStyle(document.querySelector(":root"));
 
   if (inputElement.value.match(validRegex)) {
     // **** valid email ****
     // the email is valid so hide the main dialog and show the "Successful Operation" dialog
     // set the value of the entered email to the label in the response dialog
-    document.querySelector("#email-address-label").innerText =
-      inputElement.value;
+    emailAddressLabel.innerText = inputElement.value;
 
     // clear the value of input element to be ready for the next input
     inputElement.value = "";
@@ -27,10 +36,10 @@ function addEmail() {
     clearInvalidEmailStyle();
 
     // take out from sight the main page
-    document.querySelector("#main-page").style.marginLeft = "-100%";
+    mainPage.style.marginLeft = "-100%";
 
     // get in the response page
-    document.querySelector("#response-page").style.marginLeft = "0";
+    responsePage.style.marginLeft = "0";
   } else {
     // **** invalid email ****
     console.log("the email is invalid");
@@ -52,13 +61,6 @@ function addEmail() {
 function clearInvalidEmailStyle() {
   console.log("change detected");
 
-  // get input element from DOM
-  var inputElement = document.querySelector("#email-input");
-  // get error label from DOM
-  var invalidMessageLabel = document.querySelector("#invalid-email-label");
-  // get computed styles to have access to global variables defined in css style sheets
-  var computedStyles = getComputedStyle(document.querySelector(":root"));
-
   // remove the inline color property value
   inputElement.style.color = null;
 
@@ -73,8 +75,8 @@ function clearInvalidEmailStyle() {
 
 function resetToInitialStatus() {
   // hide response page
-  document.querySelector("#response-page").style.marginLeft = "100%";
+  responsePage.style.marginLeft = "100%";
 
   // show main page
-  document.querySelector("#main-page").style.marginLeft = "0";
+  mainPage.style.marginLeft = "0";
 }
